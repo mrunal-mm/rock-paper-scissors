@@ -13,31 +13,41 @@ const buttons = document.querySelectorAll('.choices>button');
 
 const scorecard = document.querySelector('.scorecard');
 
+
 buttons.forEach((button) => {
     button.addEventListener('click', playGame);
 });
 
 function playGame(e) {
+    
     let playerSelection;
     let computerSelection;
 
     playerSelection = e.target.alt;
-    playerSelectionImage.setAttribute('src', `images/${playerSelection}.png`);
+    playerSelectionImage.setAttribute('src', `images/${playerSelection}-1.png`);
 
     computerSelection = getComputerSelection();
-    computerSelectionImage.setAttribute('src', `images/${computerSelection}.png`);
+    computerSelectionImage.setAttribute('src', `images/${computerSelection}-1.png`);
+
+    playerSelectionImage.classList.remove('border-green', 'border-red', 'border-none');
+    computerSelectionImage.classList.remove('border-green', 'border-red', 'border-none');
 
     let result = getWinner(playerSelection, computerSelection)
     if (result == "tied") {
-        console.log("MATCH TIED.");
+        playerSelectionImage.classList.add('border-none');
+        computerSelectionImage.classList.add('border-none');
     }
     else if (result == "player") {
+        playerSelectionImage.classList.add('border-green');
+        computerSelectionImage.classList.add('border-red');
         playerScore++;
     }
     else {
+        computerSelectionImage.classList.add('border-green');
+        playerSelectionImage.classList.add('border-red');
         computerScore++;
     }
-
+    
     if (playerScore==5 || computerScore==5){
         let winner;
         if (playerScore===5){
@@ -55,7 +65,8 @@ function resetGame(winner){
     alert(`${winner} won the game by ${playerScore} - ${computerScore}.\nClick "OK" to play again.`)
     playerScore = 0;
     computerScore = 0;
-
+    playerSelectionImage.classList.remove('border-green', 'border-red', 'border-none');
+    computerSelectionImage.classList.remove('border-green', 'border-red', 'border-none');
     computerSelectionImage.setAttribute('src', 'images/question-mark-red.png');
     playerSelectionImage.setAttribute('src', `images/question-mark-green.png`);
 }
