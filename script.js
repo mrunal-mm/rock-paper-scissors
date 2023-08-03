@@ -1,64 +1,75 @@
-// const GAME_CHOICES = ['rock', 'paper', 'scissors'];
+const GAME_CHOICES = ['rock', 'paper', 'scissors'];
+let playerScore = 0;
+let computerScore = 0;
+const playerSelectionImage = document.querySelector('.game-user>img');
+const computerSelectionImage = document.querySelector('.game-computer>img');
 
-// function getComputerSelection() {
-//     let index = Math.floor(Math.random() * GAME_CHOICES.length);
-//     return GAME_CHOICES[index];
-// }
+function getComputerSelection() {
+    let index = Math.floor(Math.random() * GAME_CHOICES.length);
+    return GAME_CHOICES[index];
+}
 
-// function getWinner(playerSelection, computerSelection) {
-//     if (playerSelection === computerSelection) {
-//         return "tied";
-//     }
-//     else if (playerSelection === "rock" && computerSelection === "paper" ||
-//         playerSelection === "paper" && computerSelection === "rock" ||
-//         playerSelection === "scissors" && computerSelection === "rock") {
-//         return "computer"
-//     }
-//     else {
-//         return "player"
-//     }
-// }
+const buttons = document.querySelectorAll('.choices>button');
 
-// function game() {
-//     let playerScore = 0;
-//     let computerScore = 0;
-//     let gameNumber = 0;
+const scorecard = document.querySelector('.scorecard');
 
-//     while (playerScore != 5 && computerScore != 5) {
-//         gameNumber++;
-//         console.log(`GAME - ${gameNumber}`);
-//         let playerSelection = prompt("Enter your choice between Rock, Paper and Scissor: ").toLowerCase();
-//         let computerSelection = getComputerSelection();
+buttons.forEach((button) => {
+    button.addEventListener('click', playGame);
+});
 
-//         console.log(`Player choose - ${playerSelection} and Computer choose ${computerSelection}`);
-//         let result = getWinner(playerSelection, computerSelection);
+function playGame(e) {
+    let playerSelection;
+    let computerSelection;
 
-//         if (result == "tied") {
-//             console.log("MATCH TIED.");
-//         }
+    playerSelection = e.target.alt;
+    playerSelectionImage.setAttribute('src', `images/${playerSelection}.png`);
 
-//         else if (result == "player") {
-//             console.log(`${playerSelection} beats ${computerSelection}. PLAYER WINS! 👌`);
-//             playerScore++;
-//         }
+    computerSelection = getComputerSelection();
+    computerSelectionImage.setAttribute('src', `images/${computerSelection}.png`);
 
-//         else {
-//             console.log(`${computerSelection} beats ${playerSelection}. COMPUTER WINS! 👎`);
-//             computerScore++;
-//         }
+    let result = getWinner(playerSelection, computerSelection)
+    if (result == "tied") {
+        console.log("MATCH TIED.");
+    }
+    else if (result == "player") {
+        playerScore++;
+    }
+    else {
+        computerScore++;
+    }
 
-//         console.log(`Player - ${playerScore}\nComputer - ${computerScore}`);
-//         console.log("-----------------------------------------------------------\n");
-//     }
-    
-//     console.clear()
-//     if (playerScore > computerScore) {
-//         console.log(`Player wins the 5 match series by ${playerScore}-${computerScore}.🏆`)
-//     }
-//     else {
-//         console.log(`Computer wins the 5 match series by ${computerScore}-${playerScore}.👎`)
-//     }
-// }
+    if (playerScore==5 || computerScore==5){
+        let winner;
+        if (playerScore===5){
+            winner = "You"
+        }
+        else{
+            winner = "Computer"
+        }
+        resetGame(winner);
+    }
+    scorecard.textContent = `${playerScore} - ${computerScore}`;
+}
 
+function resetGame(winner){
+    alert(`${winner} won the game by ${playerScore} - ${computerScore}.\nClick "OK" to play again.`)
+    playerScore = 0;
+    computerScore = 0;
 
-// game()
+    computerSelectionImage.setAttribute('src', 'images/question-mark-red.png');
+    playerSelectionImage.setAttribute('src', `images/question-mark-green.png`);
+}
+
+function getWinner(playerSelection, computerSelection) {
+    if (playerSelection === computerSelection) {
+        return "tied";
+    }
+    else if (playerSelection === "rock" && computerSelection === "paper" ||
+        playerSelection === "paper" && computerSelection === "rock" ||
+        playerSelection === "scissors" && computerSelection === "rock") {
+        return "computer"
+    }
+    else {
+        return "player"
+    }
+}

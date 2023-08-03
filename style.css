@@ -54,7 +54,7 @@ button img {
 
 .game-mode {
     display: flex;
-    padding: 50px 100px;
+    padding: 20px 100px;
     background-color: antiquewhite;
     justify-content: space-between;
     align-items: center;
@@ -76,8 +76,8 @@ button img {
 }
 
 .scorecard {
-    display: flex;
-    padding: 0 100px;
-    justify-content: center;
-    gap: 300px;
+    text-align: center;
+    background-color: antiquewhite;
+    margin: 0;
+    padding-top: 50px;
 }
